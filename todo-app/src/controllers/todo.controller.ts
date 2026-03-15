@@ -4,7 +4,32 @@ import { Request, Response } from "express";
 // read
 
 const getTodos = async (req: Request, res: Response) => {
-    const todos = await Todo.find();
+    
+    //pagination
+    const page = Number(req.query.page)
+    const limit = Number(req.query.limit)
+
+    const skip = (page - 1) * limit;
+    // filtering
+    const completed = req.query.completed
+    let filter:any = {}
+    if (completed !== undefined){
+        filter.completed = completed === "true"
+    }
+    // search
+    const search = req.query.search;
+    if (search){
+        filter.title = {$regex:search, $options:"i"}
+    }
+
+    // sort
+    const sort = req.query.sort 
+    const todos = await Todo.find(filter)
+        .skip(skip)
+        .limit(limit)
+        .sort(sort as any)
+
+
     res.json(todos);
 };
 
