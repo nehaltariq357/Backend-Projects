@@ -36,6 +36,9 @@ const addComment = async(req:Request,res:Response)=>{
         },
         {new:true}
     )
+    if (!post) {
+  return res.status(404).json({ message: "Post not found" });
+}
     res.json(post)
 }
 
