@@ -8,7 +8,8 @@ import totalSale from "../controller/totalSales.controller"
 
  const router = Router()
 
-router.post("/orders",placeOrder)
+router.post("/order",placeOrder)
+
 router.get("/analytics/sales", totalSale);
 
 router.get("/analytics/best-product", bestSellingProduct);
